@@ -26,7 +26,6 @@ class solarPos:
         tom = str(tom_date.year)+'-'+str(tom_date.month)+'-'+str(tom_date.day)
 
         tz = 'Etc/GMT+0'
-    #lat, lon = 40.5899224, -4.4114131
         loc = location.Location(latitud, longitud)
         times = pd.date_range(tod, tom, closed='left', freq='1min', tz=tz)
         
@@ -50,9 +49,11 @@ class solarPos:
             deg=deg-360
         if(deg<0):
             deg=deg+360
-        deg=deg+90 #+90 por rotar el elje x y +7 porque son los grados de diferencia entre la cámara y el chasis del dispositivo (cuando el chasis está completamente alineado con el Norte (0º) la camara está en dirección 7º)
+        deg=deg+90+7
+        #+90 por rotar el elje x (con el prototipo mirando al Norte 0º, este debe dibujarse en la parte superior de la pantalla)
+        #+7 porque son los grados de diferencia entre la cámara y el chasis del dispositivo (cuando el chasis está completamente alineado con el Norte (0º) la camara está en dirección 7º)
 
-        #con el calibrado tenemos que 5pixeles son alrededor de 1º por lo que el sol en Zenit 0º es r=0 y el zenit 90º r= tamaño imagen en y/2
+        #con el calibrado de camara: 4.6pixeles son aproximadamente 1º por lo que el sol en Zenit 0º es r=0 y el zenit 90º r= maximo
         r=4.6*ze
         if(r>400):
             r=400         
@@ -63,6 +64,7 @@ class solarPos:
         
         
         #cartesianas a pixeles
+        #con el calibrado de cámara: centro de imagen = (412, 316)
         x_pixel=x+412
         if(x_pixel>799):
             x_pixel=799
@@ -112,6 +114,7 @@ class tmy:
         datos_buenos["dni"][:]=datos["dni"][:]
         datos_buenos["dhi"][:]=datos["dhi"][:]
         
+        #corrección de formato
         if(self.mes<10):
             smes="0" + str(self.mes)
         else:

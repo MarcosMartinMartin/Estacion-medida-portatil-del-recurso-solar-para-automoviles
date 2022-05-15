@@ -1,5 +1,5 @@
 from camara import VideoCapture
-from gps import GPS
+#from gps import GPS
 from magnetometro import HMC5883L
 from mascaras import mascaras
 from datos_sol import solarPos
@@ -16,7 +16,7 @@ tmy=tmy()
 
 iot = ThingSpeak()
 
-gps = GPS()
+#gps = GPS()
 brujula = HMC5883L()
 mask = mascaras()
 solPos = solarPos()
@@ -26,6 +26,7 @@ cap = VideoCapture(0)
 
 frame = cap.read()
 
+delay=delay()
 
 SOL=0
 SFV=0
@@ -33,23 +34,20 @@ DNI=0
 DHI=0
 
 segundos = 0
-bdt=0 #bit de trabajo, para entrar en el 'if' de control de la cadencia por primera vez en la ejecución.
+bdt=0
 
 while True:
     
     frame = cap.read()
     
-    gps_data = gps.get_datos()
+    #gps_data = gps.get_datos()
     brujula_data = brujula.direccion()
     
-    ##datos de GPS
-    if (gps_data=='0'):
-        print('Fallo del GPS, salto de dato...')
-    else:
-        hora = int(gps_data[4][8:10])
-        minuto = int(gps_data[4][10:12])
-        latitud = float(gps_data[5])
-        longitud = float(gps_data[6])    
+    ##DATOS GPS SUSTITUIDOS
+    hora = datetime.now().hour-2  #-2POSICION DEL SOL CALCULADA CON GMT 0
+    minuto = datetime.now().minute
+    latitud = 40.3100000  #40.4053673 #40.3100000
+    longitud = -3.4856012 #-3.700096 #-3.4856012
         
     ##posicion solar
     solares = solPos.solarPos(hora, minuto, latitud, longitud)
@@ -75,7 +73,7 @@ while True:
     if(segundos>30 or bdt==0):
         bdt=1
         segundos=0
-        
+        instanteInicial=datetime.now()
         print('Procesando frame...')
         #procesado de imagen completa
         frame_mascara = frame.copy()
@@ -104,9 +102,6 @@ while True:
         cv2.imshow("frame_pintado", frame_pintado )
         
         print('...frame procesado')
-        instanteInicial=datetime.now()        
-        
-    #Contador de tiempo desde que termina el procesado. Con el 'if' de 'segundos' se controla la cadencia de procesado de capturas y envío de datos a la plataforma IoT
     instanteFinal=datetime.now()
     tiempo = instanteFinal - instanteInicial
     segundos = tiempo.seconds

@@ -18,7 +18,7 @@ class procesadoImagen:
         contador_pixeles = 0
         contador_sombra = 0
         
-        #barrer un cuadrado de 300x300
+        #barrer un cuadrado de 600x600 con centro en centro de la imagen util
         for i in range(600): 
             for j in range(600):
                 x=cx-300+i
@@ -29,7 +29,8 @@ class procesadoImagen:
                     contador_pixeles=contador_pixeles
                 else:
                     
-                    #comprobar si el pixel estudiado se encuentra en area definica por la circunferenica con radio 278pixeles y centro en (cx, cy)
+                    #comprobar si el pixel estudiado se encuentra en area definida por la circunferenica con radio 278pixeles y centro en (cx, cy)
+                    #278 pixeles corresponden a 60º, se calcula el SVF(60º). Es el radio máximo que se puede obtener sin que la imagen quede cortada.
                     if(math.sqrt(((x-cx)*(x-cx))+((y-cy)*(y-cy)))<278):
                         contador_pixeles=contador_pixeles+1
                         #test
@@ -62,7 +63,7 @@ class procesadoImagen:
         contador_sombra = 0
         
         
-        #barrer un cuadrado de 36x36
+        #barrer un cuadrado de 92x92 con centro en el pixel donde se encuentra el Sol
         for i in range(92): 
             for j in range(92):
                 x=cx-46+i
