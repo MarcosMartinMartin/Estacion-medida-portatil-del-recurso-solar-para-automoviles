@@ -49,8 +49,8 @@ while True:
         hora = int(gps_data[4][8:10])
         minuto = int(gps_data[4][10:12])
         latitud = float(gps_data[5])
-        longitud = float(gps_data[6])    
-        
+        longitud = float(gps_data[6])
+    
     ##posicion solar
     solares = solPos.solarPos(hora, minuto, latitud, longitud)
     #pixel donde virtualmente se encuentra el Sol
@@ -97,7 +97,7 @@ while True:
         print('DNI TMY: ', tmy.DNI, ' - DHI TMY: ',tmy.DHI, '   -DNI calculado: ', DNI ,'...sombra...',SOL, '  DHI calculado: ', DHI, '...SVF...', SVF)
         
         #enviar datos a plataforma IoT
-        iot.enviar(latitud, longitud, DNI, DHI)
+        iot.enviar(latitud, longitud, DNI, DHI, solares[1])
         
         #mostrar frame capturado y proesado de imagen (descomentar para test)
         cv2.imshow("mascara", frame_mascara) 

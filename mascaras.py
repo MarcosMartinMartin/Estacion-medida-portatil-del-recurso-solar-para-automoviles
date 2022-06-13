@@ -30,14 +30,16 @@ class mascaras:
         def empty():
             pass
         
-        imgHSV = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
-        lower = np.array([0, 0, 40])   #h_min, s_min, v_min 0,0,118
-        upper = np.array([179, 255, 255])   #h_max, s_max, v_max 130l,
-        mask = cv2.inRange(imgHSV, lower, upper)
+        #imgHSV = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
+        imgray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        
+        #lower = np.array([0, 0, 20])   #h_min, s_min, v_min 0,0,118
+        #upper = np.array([179, 255, 255])   #h_max, s_max, v_max 130l,
+        #mask = cv2.inRange(imgHSV, lower, upper)
         
         # Umbral del procesado
         thresh = cv2.threshold(
-            mask, 0, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C + cv2.THRESH_OTSU)[1]
+            imgray, 100, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C + cv2.THRESH_OTSU)[1]
 
         # Filtrado usando área de contornos y elimninando el ruido
         cnts = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)

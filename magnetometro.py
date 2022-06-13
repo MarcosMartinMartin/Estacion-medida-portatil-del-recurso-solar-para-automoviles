@@ -8,11 +8,11 @@ class HMC5883L:
     address = 0x1e
 
     #inicializaciones predeterminadas
-    scale = 0.92
-    scale_x = 0.6708
-    scale_y = 0.6966
-    x_offset = 18.5
-    y_offset = -208.0
+    scale = 1
+    scale_x = 0.7
+    scale_y = 0.7
+    x_offset = 35
+    y_offset = -176.5
     
     def __init__(self):        
         rev = GPIO.RPI_REVISION
@@ -25,7 +25,7 @@ class HMC5883L:
         self.write_byte(2, 0b00000000) # Continuous sampling
         print('Brujula inicializada')
         
-        #leer el archivo donde se guardan los datos para el calibrado del sensor
+       #leer el archivo donde se guardan los datos para el calibrado del sensor
         with open('ConfiguracioMag.csv', newline='') as File:  
             reader = csv.reader(File)
             for row in reader:
@@ -69,6 +69,6 @@ class HMC5883L:
         declination =0.3
         bearing = math.degrees(bearing) + declination
         time.sleep(0.1)
+        
             
         return bearing
-        

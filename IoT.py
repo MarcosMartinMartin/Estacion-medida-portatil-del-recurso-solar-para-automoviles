@@ -5,10 +5,10 @@ import time
 
 class ThingSpeak:
     
-    def enviar(self, lat, lon, val1, val2):
+    def enviar(self, lat, lon, val1, val2, val3):
         URL='https://api.thingspeak.com/update?api_key='
         KEY='8HRAZHU8AWKCO3HN'
-        HEADER='&field1={}&field2={}&field3={}&field4={}'.format(lat, lon, val1, val2)
+        HEADER='&field1={}&field2={}&field3={}&field4={}&field5={}'.format(lat, lon, val1, val2, val3)
         NEW_URL=URL+KEY+HEADER
         urllib.request.urlopen(NEW_URL)
         
