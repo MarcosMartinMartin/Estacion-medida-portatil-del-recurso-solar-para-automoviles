@@ -39,7 +39,7 @@ while True:
     
     frame = cap.read()
     
-    gps_data = gps.get_datos()
+    #gps_data = gps.get_datos()
     brujula_data = brujula.direccion()
     
     ##datos de GPS
@@ -50,6 +50,7 @@ while True:
         minuto = int(gps_data[4][10:12])
         latitud = float(gps_data[5])
         longitud = float(gps_data[6])
+    
     
     ##posicion solar
     solares = solPos.solarPos(hora, minuto, latitud, longitud)
@@ -97,7 +98,7 @@ while True:
         print('DNI TMY: ', tmy.DNI, ' - DHI TMY: ',tmy.DHI, '   -DNI calculado: ', DNI ,'...sombra...',SOL, '  DHI calculado: ', DHI, '...SVF...', SVF)
         
         #enviar datos a plataforma IoT
-        iot.enviar(latitud, longitud, DNI, DHI, solares[1])
+        iot.enviar(latitud, longitud, DNI, DHI, solares[1], brujula_data)
         
         #mostrar frame capturado y proesado de imagen (descomentar para test)
         cv2.imshow("mascara", frame_mascara) 
